@@ -53,3 +53,16 @@ namespace My
 	};
 }
 
+inline std::ostream& operator<<(std::ostream& stream, My::Matrix matrix)
+{
+	for (int j = 0; j < matrix.getHeight(); j++)
+	{
+		for (int i = 0; i < matrix.getWidth(); i++)
+		{
+			stream << matrix.getAt(i, j)<<" ";
+		}
+		stream<<"\n";
+	}
+	return stream;
+}
+
