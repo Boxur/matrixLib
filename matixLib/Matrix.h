@@ -53,6 +53,10 @@ namespace My
 		//Matrix of minors
 		static My::Matrix matrixOfMinors(My::Matrix& matrix);
 		My::Matrix matrixOfMinors();
+
+		//matrix of cofactors
+		static My::Matrix matrixOfCofactor(My::Matrix& matrix);
+		My::Matrix matrixOfCofactor();
 		
 
 	private:

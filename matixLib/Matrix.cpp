@@ -271,3 +271,23 @@ My::Matrix My::Matrix::matrixOfMinors()
 {
 	return My::Matrix::matrixOfMinors(*this);
 }
+
+//matrix of cofactors
+My::Matrix My::Matrix::matrixOfCofactor(My::Matrix& matrix)
+{
+	My::Matrix ans = My::Matrix::matrixOfMinors(matrix);
+	for (int j = 0; j < ans.getHeight(); j++)
+	{
+		for (int i = 0; i < ans.getWidth(); i++)
+		{
+			if ((j + i) % 2 != 0)
+				ans.setAt(-1 * ans.getAt(i, j), i, j);
+		}
+	}
+	return ans;
+}
+
+My::Matrix My::Matrix::matrixOfCofactor()
+{
+	return My::Matrix::cofactor(*this);
+}

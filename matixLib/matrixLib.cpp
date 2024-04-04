@@ -11,6 +11,6 @@ int main()
 			first.setAt(a[3*j+i], i, j);
 		}
 	}
-	std::cout <<first.matrixOfMinors();
+	std::cout <<first.matrixOfCofactor();
 	
 }
