@@ -4,12 +4,12 @@ My::Matrix::Matrix(int width, int height)
 	:m_width(width),
 	m_height(height) 
 {
-	m_values = new std::vector<std::vector<float>>(
-		m_width, std::vector<float>(m_height)
+	m_values = std::vector<std::vector<double>>(
+		m_width, std::vector<double>(m_height)
 	); 
 }
 
-float My::Matrix::getAt(int x, int y)
+double My::Matrix::getAt(int x, int y)
 {
 	if (!(0 <= x && x < m_width && 0 <= y && y < m_height))
 	{
@@ -17,10 +17,10 @@ float My::Matrix::getAt(int x, int y)
 		My::errorMsg((char*)err.data());
 		return 0;
 	}
-	return (*m_values)[x][y];
+	return m_values[x][y];
 }
 
-bool My::Matrix::setAt(float val, int x, int y)
+bool My::Matrix::setAt(double val, int x, int y)
 {
 	if (!(0 <= x && x < m_width && 0 <= y && y < m_height))
 	{
@@ -28,9 +28,31 @@ bool My::Matrix::setAt(float val, int x, int y)
 		My::errorMsg((char*)err.data());
 		return false;
 	}
-	(*m_values)[x][y] = val;
+	m_values[x][y] = val;
 	return true;
 }
+
+/* 
+	!!!Uncommenting the code below and its declaration in Matrix.h file results with a funny error C2440
+*/
+////copy constructor
+//My::Matrix::Matrix(My::Matrix& matrix)
+//{
+//	this->m_values = matrix.m_values;
+//	this->m_height = matrix.m_height;
+//	this->m_width = matrix.m_width;
+//}
+
+
+//deep copy
+My::Matrix& My::Matrix::operator=(const My::Matrix& matrix)
+{
+	this->m_values = matrix.m_values;
+	this->m_height = matrix.m_height;
+	this->m_width  = matrix.m_width;
+	return *this;
+}
+
 
 //addition
 My::Matrix My::Matrix::add(My::Matrix first, My::Matrix second)
@@ -101,33 +123,32 @@ My::Matrix My::Matrix::operator~()
 	return this->transpose(*this);
 }
 
-//multiplication by a scalar
-My::Matrix My::Matrix::multiply(My::Matrix matrix, float val)
+//multiplication by a scalar 
+My::Matrix My::Matrix::multiply(My::Matrix matrix, double val)
 {
-
 	if(matrix.multiplyBy(val))
 		return matrix;
 	return My::Matrix(0, 0);
 }
 
-My::Matrix My::Matrix::operator*(float val)
+My::Matrix My::Matrix::operator*(double val)
 {
 	return multiply(*this, val);
 }
 
-bool My::Matrix::multiplyBy(float val)
+bool My::Matrix::multiplyBy(double val)
 {
 	for (int j = 0; j < m_height; j++)
 	{
 		for (int i = 0; i < m_width; i++)
 		{
-			(*m_values)[i][j] *= val;
+			m_values[i][j] *= val;
 		}
 	}
 	return true;
 }
 
-bool My::Matrix::operator*=(float val)
+bool My::Matrix::operator*=(double val)
 {
 	return multiplyBy(val);
 }
@@ -157,7 +178,7 @@ bool My::Matrix::multiplyBy(My::Matrix matrix)
 	{
 		for (int j = 0; j < ans.getWidth(); j++)
 		{
-			float sum=0;
+			double sum=0;
 			for (int i = 0; i < repeat; i++)
 			{
 				sum += this->getAt(i, k) * matrix.getAt(j, i);
@@ -175,7 +196,7 @@ bool My::Matrix::operator*=(My::Matrix matrix)
 }
 
 //determinant
-float My::Matrix::det(My::Matrix matrix)
+double My::Matrix::det(My::Matrix matrix)
 {
 	if (matrix.getWidth() != matrix.getHeight())
 	{
@@ -187,14 +208,14 @@ float My::Matrix::det(My::Matrix matrix)
 	{
 		for (int i = j+1; i < matrix.getWidth(); i++)
 		{
-			float mult = matrix.getAt(i, j) / matrix.getAt(j, j);
+			double mult = matrix.getAt(i, j) / matrix.getAt(j, j);
 			for (int a = j; a < matrix.getHeight(); a++)
 			{
 				matrix.setAt(matrix.getAt(i, a) - mult * matrix.getAt(j, a),i,a);
 			}
 		}
 	}
-	float ans = 1;
+	double ans = 1;
 	for (int i = 0; i < matrix.getWidth(); i++)
 	{
 		ans *= matrix.getAt(i, i);
@@ -202,9 +223,9 @@ float My::Matrix::det(My::Matrix matrix)
 	return ans;
 }
 
-float My::Matrix::det()
+double My::Matrix::det()
 {
-	return this->det(*this);
+	return My::Matrix::det(*this);
 }
 
 //minors
@@ -293,7 +314,7 @@ My::Matrix My::Matrix::matrixOfCofactor()
 }
 
 //Adjoint matrix
-My::Matrix My::Matrix::adjoint(My::Matrix& matrix)
+My::Matrix My::Matrix::adjoint(My::Matrix matrix)
 {
 	return My::Matrix::transpose(matrix.matrixOfCofactor());
 }
@@ -303,4 +324,16 @@ My::Matrix My::Matrix::adjoint()
 	return My::Matrix::adjoint(*this);
 }
 
+//inverse matrix
 
+My::Matrix My::Matrix::inverse(My::Matrix& matrix)
+{
+	double det = My::Matrix::det(matrix);
+	det = 1 / det;
+	return matrix.adjoint() * det;
+}
+
+My::Matrix My::Matrix::inverse()
+{
+	return My::Matrix::inverse(*this);
+}

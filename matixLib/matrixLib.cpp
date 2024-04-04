@@ -11,6 +11,9 @@ int main()
 			first.setAt(a[3*j+i], i, j);
 		}
 	}
-	std::cout <<first.matrixOfCofactor();
+	My::Matrix test(3, 3);
+	test = first;
+	test.setAt(0, 0, 0);
+	std::cout <<first.inverse();
 	
 }

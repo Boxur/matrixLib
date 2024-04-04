@@ -14,8 +14,14 @@ namespace My
 		int getWidth() {return m_width;}
 		int getHeight() {return m_height;}
 
-		float getAt(int x, int y);
-		bool setAt(float value, int x, int y);
+		double getAt(int x, int y);
+		bool setAt(double value, int x, int y);
+
+		////copy constructor
+		//Matrix(My::Matrix& matrix);
+
+		//deep copy
+		My::Matrix& operator=(const My::Matrix& matrix);
 
 		//addition
 		static My::Matrix add(My::Matrix first, My::Matrix second);
@@ -30,11 +36,11 @@ namespace My
 		bool transpose();
 
 		//multiplication by a scalar
-		static My::Matrix multiply(My::Matrix matrix, float val);
-		My::Matrix operator*(float val);
+		static My::Matrix multiply(My::Matrix matrix, double val);
+		My::Matrix operator*(double val);
 
-		bool multiplyBy(float val);
-		bool operator*= (float val);
+		bool multiplyBy(double val);
+		bool operator*= (double val);
 
 		//multiplication by another matrix
 		static My::Matrix multiply(My::Matrix first, My::Matrix second);
@@ -43,8 +49,8 @@ namespace My
 		bool operator*=(My::Matrix matrix);
 
 		//determinant
-		static float det(My::Matrix matrix);
-		float det();
+		static double det(My::Matrix matrix);
+		double det();
 
 		//minors
 		static My::Matrix minor(My::Matrix& matrix, int x, int y);
@@ -59,14 +65,18 @@ namespace My
 		My::Matrix matrixOfCofactor();
 
 		//Adjoint matrix
-		static My::Matrix adjoint(My::Matrix& matrix);
+		static My::Matrix adjoint(My::Matrix matrix);
 		My::Matrix adjoint();
+
+		//Inverse matrix
+		static My::Matrix inverse(My::Matrix& matrix);
+		My::Matrix inverse();
 
 		
 
 	private:
 		int m_width, m_height;
-		std::vector<std::vector<float>> *m_values;
+		std::vector<std::vector<double>> m_values;
 	};
 }
 
