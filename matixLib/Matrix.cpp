@@ -207,3 +207,62 @@ float My::Matrix::det()
 	return this->det(*this);
 }
 
+//minors
+My::Matrix My::Matrix::minor(My::Matrix& matrix,float x,float y)
+{
+	const int width = matrix.getWidth();
+	const int height = matrix.getHeight();
+	if (width != height)
+	{
+		My::errorMsg((char*)"Minors are only defined for square matrices");
+		return matrix;
+	}
+
+	My::Matrix ans(width - 1, height - 1);
+
+	char wasY = 0;
+	char wasX = 0;
+	for (int j = 0; j < height; j++)
+	{
+		wasX = 0;
+		if (j == y)
+		{
+			wasY = 1;
+			continue;
+		}
+		for (int i = 0; i < width; i++)
+		{
+			if (i == x)
+			{
+				wasX = 1;
+				continue;
+			}
+			ans.setAt(matrix.getAt(i, j), i - wasX, j - wasY);
+		}
+	}
+	return ans;
+
+
+}
+
+My::Matrix My::Matrix::minor(float x, float y)
+{
+	return My::Matrix::minor(*this, x, y);
+}
+
+//Matrix of Minors
+My::Matrix My::Matrix::matrixOfMinors(My::Matrix& matrix)
+{
+	const int width = matrix.getWidth();
+	const int height = matrix.getHeight();
+	My::Matrix ans(width, height);
+	for (int j = 0; j < height; j++)
+	{
+		for (int i = 0; i < width; i++)
+		{
+
+		}
+	}
+	return ans;
+
+}

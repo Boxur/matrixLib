@@ -45,6 +45,13 @@ namespace My
 		//determinant
 		static float det(My::Matrix matrix);
 		float det();
+
+		//minors
+		static My::Matrix minor(My::Matrix& matrix, float x, float y);
+		My::Matrix minor(float x, float y);
+
+		//Matrix of minors
+		static My::Matrix matrixOfMinors(My::Matrix& matrix);
 		
 
 	private:
