@@ -11,6 +11,6 @@ int main()
 			first.setAt(a[3*j+i], i, j);
 		}
 	}
-	std::cout << My::Matrix::minor(first,1,1);
+	std::cout <<first.matrixOfMinors();
 	
 }

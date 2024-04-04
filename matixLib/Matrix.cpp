@@ -208,7 +208,7 @@ float My::Matrix::det()
 }
 
 //minors
-My::Matrix My::Matrix::minor(My::Matrix& matrix,float x,float y)
+My::Matrix My::Matrix::minor(My::Matrix& matrix, int x, int y)
 {
 	const int width = matrix.getWidth();
 	const int height = matrix.getHeight();
@@ -245,7 +245,7 @@ My::Matrix My::Matrix::minor(My::Matrix& matrix,float x,float y)
 
 }
 
-My::Matrix My::Matrix::minor(float x, float y)
+My::Matrix My::Matrix::minor(int x, int y)
 {
 	return My::Matrix::minor(*this, x, y);
 }
@@ -260,9 +260,14 @@ My::Matrix My::Matrix::matrixOfMinors(My::Matrix& matrix)
 	{
 		for (int i = 0; i < width; i++)
 		{
-
+			ans.setAt(My::Matrix::det(minor(matrix, i, j)), i, j);
 		}
 	}
 	return ans;
 
+}
+
+My::Matrix My::Matrix::matrixOfMinors()
+{
+	return My::Matrix::matrixOfMinors(*this);
 }
