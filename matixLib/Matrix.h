@@ -57,6 +57,11 @@ namespace My
 		//matrix of cofactors
 		static My::Matrix matrixOfCofactor(My::Matrix& matrix);
 		My::Matrix matrixOfCofactor();
+
+		//Adjoint matrix
+		static My::Matrix adjoint(My::Matrix& matrix);
+		My::Matrix adjoint();
+
 		
 
 	private:

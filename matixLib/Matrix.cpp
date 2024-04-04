@@ -289,5 +289,18 @@ My::Matrix My::Matrix::matrixOfCofactor(My::Matrix& matrix)
 
 My::Matrix My::Matrix::matrixOfCofactor()
 {
-	return My::Matrix::cofactor(*this);
+	return My::Matrix::matrixOfCofactor(*this);
 }
+
+//Adjoint matrix
+My::Matrix My::Matrix::adjoint(My::Matrix& matrix)
+{
+	return My::Matrix::transpose(matrix.matrixOfCofactor());
+}
+
+My::Matrix My::Matrix::adjoint()
+{
+	return My::Matrix::adjoint(*this);
+}
+
+
